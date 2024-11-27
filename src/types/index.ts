@@ -8,7 +8,8 @@ export interface Event {
   description: string;
   venueType: string;
   imageUrl: string;
-  category: 'week' | 'weekend';
+  category: 'week' | 'weekend' | 'upcoming';
+  dj?: string;
 }
 
 export interface Venue {

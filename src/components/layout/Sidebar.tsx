@@ -1,6 +1,6 @@
 'use client';
 
-import { Calendar, Music } from 'lucide-react';
+import { Calendar, Music, Star } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Sidebar() {
@@ -18,6 +18,12 @@ export default function Sidebar() {
             <Link href="/?category=weekend" className="flex items-center text-gray-300 hover:text-white transition-colors">
               <Music className="w-5 h-5 mr-3" />
               Dieses Wochenende
+            </Link>
+          </li>
+          <li>
+            <Link href="/?category=upcoming" className="flex items-center text-gray-300 hover:text-white transition-colors">
+              <Star className="w-5 h-5 mr-3" />
+              Top DJs Next Month
             </Link>
           </li>
         </ul>

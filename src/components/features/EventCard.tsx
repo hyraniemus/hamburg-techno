@@ -1,7 +1,7 @@
 'use client';
 
 import { Event } from '@/types';
-import { Calendar, MapPin } from 'lucide-react';
+import { Calendar, MapPin, Star } from 'lucide-react';
 import Image from 'next/image';
 
 interface EventCardProps {
@@ -28,6 +28,12 @@ export default function EventCard({ event }: EventCardProps) {
         />
         <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-700" />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24" />
+        {event.dj && (
+          <div className="absolute top-2 right-2 bg-black/80 px-3 py-1 rounded-full flex items-center">
+            <Star className="w-4 h-4 mr-2 text-yellow-400" />
+            <span className="text-yellow-400 font-semibold">{event.dj}</span>
+          </div>
+        )}
       </div>
       <div className="p-4">
         <h3 className="text-xl font-bold mb-2 text-white">{event.title}</h3>

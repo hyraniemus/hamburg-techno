@@ -79,6 +79,40 @@ const mockEvents: Event[] = [
     venueType: 'teal',
     imageUrl: '/images/schreddeer1.jpg',
     category: 'weekend'
+  },
+  // Kommende Top-DJs
+  {
+    id: '8',
+    title: 'ARTBAT Exclusive',
+    date: addDays(today, 30),
+    location: 'PAL Hamburg',
+    description: 'Das ukrainische Duo ARTBAT präsentiert melodischen Techno der Extraklasse.',
+    venueType: 'red',
+    imageUrl: '/images/schreddeer1.jpg',
+    category: 'upcoming',
+    dj: 'ARTBAT'
+  },
+  {
+    id: '9',
+    title: 'Charlotte de Witte',
+    date: addDays(today, 35),
+    location: 'Uebel & Gefährlich',
+    description: 'Die Queen des Dark Techno kommt nach Hamburg!',
+    venueType: 'purple',
+    imageUrl: '/images/schreddeer1.jpg',
+    category: 'upcoming',
+    dj: 'Charlotte de Witte'
+  },
+  {
+    id: '10',
+    title: 'Boris Brejcha präsentiert FCKNG SERIOUS',
+    date: addDays(today, 40),
+    location: 'Große Freiheit 36',
+    description: 'High-Tech Minimal vom maskierten Meister.',
+    venueType: 'blue',
+    imageUrl: '/images/schreddeer1.jpg',
+    category: 'upcoming',
+    dj: 'Boris Brejcha'
   }
 ];
 
