@@ -1,17 +1,19 @@
+export type VenueType = 'teal' | 'blue' | 'orange' | 'green';
+
 export interface Event {
   id: string;
   title: string;
   date: Date;
   location: string;
-  description?: string;
-  imageUrl?: string;
-  venueType: 'teal' | 'blue' | 'orange' | 'green';
+  description: string;
+  venueType: VenueType;
+  imageUrl: string;  // Neue Eigenschaft für Bilder
 }
 
 export interface Venue {
   id: string;
   name: string;
-  type: 'teal' | 'blue' | 'orange' | 'green';
+  type: VenueType;
   events: Event[];
 }
 
