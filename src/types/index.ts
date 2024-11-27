@@ -6,8 +6,9 @@ export interface Event {
   date: Date;
   location: string;
   description: string;
-  venueType: VenueType;
-  imageUrl: string;  // Neue Eigenschaft für Bilder
+  venueType: string;
+  imageUrl: string;
+  category: 'week' | 'weekend';
 }
 
 export interface Venue {
