@@ -19,10 +19,11 @@ export default function EventCard({ event }: EventCardProps) {
     <div className={`rounded-lg overflow-hidden shadow-lg bg-opacity-80 bg-black hover:bg-opacity-90 transition-all border-l-4 border-${event.venueType}`}>
       <div className="relative h-48 overflow-hidden">
         <Image
-          src={event.imageUrl || 'https://picsum.photos/400/300'}
+          src={event.imageUrl}
           alt={event.title}
-          fill
-          className="object-cover transform hover:scale-105 transition-transform duration-300"
+          width={400}
+          height={300}
+          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24" />
       </div>
