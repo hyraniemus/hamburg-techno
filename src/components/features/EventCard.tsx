@@ -1,7 +1,6 @@
 'use client';
 
-import Image from 'next/image';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar, MapPin } from 'lucide-react';
 import { Event } from '@/types';
 
 interface EventCardProps {
@@ -18,12 +17,14 @@ export default function EventCard({ event }: EventCardProps) {
   return (
     <div className={`rounded-lg overflow-hidden shadow-lg bg-opacity-80 bg-black hover:bg-opacity-90 transition-all border-l-4 border-${event.venueType}`}>
       <div className="relative h-48 overflow-hidden">
-        <Image
-          src={event.imageUrl}
-          alt={event.title}
-          width={400}
-          height={300}
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+        <iframe
+          className="w-full h-full scale-150"
+          src="https://www.youtube.com/embed/ltnIwB6NDlU?autoplay=1&mute=1&loop=1&playlist=ltnIwB6NDlU&controls=0&showinfo=0&rel=0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{
+            pointerEvents: 'none',
+          }}
         />
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent h-24" />
       </div>
