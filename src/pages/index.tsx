@@ -15,7 +15,7 @@ const mockEvents: Event[] = [
     location: 'PAL Hamburg',
     description: 'Eine Nacht voller Techno mit den besten DJs der Stadt.',
     venueType: 'teal',
-    imageUrl: 'https://ohschonhell.de/wp-content/uploads/2023/07/PAL-Hamburg-1-980x551.jpg',
+    imageUrl: '/images/schreddeer1.jpg',
   },
   {
     id: '2',
@@ -24,7 +24,7 @@ const mockEvents: Event[] = [
     location: 'Waagenbau',
     description: 'Deep House und Techno im legendären Waagenbau.',
     venueType: 'blue',
-    imageUrl: 'https://ohschonhell.de/wp-content/uploads/2023/06/Waagenbau-Hamburg-5.jpg',
+    imageUrl: '/images/schreddeer1.jpg',
   },
   {
     id: '3',
@@ -33,7 +33,7 @@ const mockEvents: Event[] = [
     location: 'Hafenklang',
     description: 'Industrieller Techno in historischer Location.',
     venueType: 'orange',
-    imageUrl: 'https://ohschonhell.de/wp-content/uploads/2023/05/Hafenklang-Hamburg-1.jpg',
+    imageUrl: '/images/schreddeer1.jpg',
   },
   {
     id: '4',
@@ -42,7 +42,7 @@ const mockEvents: Event[] = [
     location: 'U&G Hamburg',
     description: 'Techno und Electro im Bunker.',
     venueType: 'green',
-    imageUrl: 'https://ohschonhell.de/wp-content/uploads/2023/05/Uebel-Gefaehrlich-Hamburg-5.jpg',
+    imageUrl: '/images/schreddeer1.jpg',
   },
 ];
 
