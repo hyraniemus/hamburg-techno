@@ -6,7 +6,7 @@ export default function BackgroundVideo() {
       <div className="absolute inset-0 bg-black/70" /> {/* Overlay für bessere Lesbarkeit */}
       <iframe
         className="w-full h-full scale-150"
-        src="https://www.youtube.com/embed/vvFjQDMsYdY?autoplay=1&mute=1&loop=1&playlist=vvFjQDMsYdY&controls=0&showinfo=0&rel=0"
+        src="https://www.youtube.com/embed/1flmBC0x1zA?autoplay=1&mute=1&loop=1&playlist=1flmBC0x1zA&controls=0&showinfo=0&rel=0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         style={{
