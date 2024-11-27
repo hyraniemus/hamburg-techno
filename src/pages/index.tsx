@@ -123,7 +123,7 @@ export default function Home() {
       <Header />
       <div className="pt-20">
         <Sidebar />
-        <main className="ml-64 p-6">
+        <main className="p-4 md:ml-64 md:p-6">
           <EventGrid events={mockEvents} />
         </main>
       </div>
