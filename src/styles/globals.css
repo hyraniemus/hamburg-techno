@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --neon-pink: #FF1493;
+  --neon-pink-glow: 0 0 5px #FF1493, 0 0 10px #FF1493, 0 0 15px #FF1493;
+}
+
+body {
+  @apply text-white min-h-screen;
+}
