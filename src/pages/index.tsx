@@ -1,11 +1,11 @@
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import EventGrid from '@/components/features/EventGrid';
-import BackgroundVideo from '@/components/features/BackgroundVideo';
+import Background from '@/components/features/Background';
 import { Event } from '@/types';
 import { getToday, addDays } from '@/utils/dates';
 
-// Mock data with current dates and ohschonhell.de images
+// Mock data with current dates
 const today = getToday();
 const mockEvents: Event[] = [
   {
@@ -49,7 +49,7 @@ const mockEvents: Event[] = [
 export default function Home() {
   return (
     <div className="min-h-screen">
-      <BackgroundVideo />
+      <Background />
       <Header />
       <div className="pt-20">
         <Sidebar />
