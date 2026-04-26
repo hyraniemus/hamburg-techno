@@ -32,6 +32,12 @@ die zu AI-gestützter Video-Produktion wechseln.
 
 Erstelle eine tägliche News-Zusammenfassung für den {current_date}.
 
+⚠️ WICHTIG - SOURCE ATTRIBUTION:
+- JEDE Aussage MUSS eine verifizierbare Quelle haben
+- Keine Verallgemeinerungen ohne konkrete Belege
+- Format: "Claim" → [Link](URL) oder "basierend auf: [Quelle 1], [Quelle 2]"
+- Unterscheide: FACT (konkrete News) vs. TREND (Beobachtung + Belege)
+
 FOKUS-TOOLS & THEMEN:
 - Tools: Avid Media Composer, DaVinci Resolve, Remotion, ComfyUI, Runway Gen-4, Claude Code
 - Topics: AI-Video-Generierung, Post-Production-Automatisierung, Musikproduktion (Suno), Dokumentar-Film/TV
@@ -42,28 +48,35 @@ STRUKTUR (MAX 400 Wörter, DEUTSCH):
 
 1. **Top 3 News-Highlights**:
    - Kurze Bullet-Points mit Relevanz für Video-Workflow
-   - Format: "Headline – Quelle (Link)"
+   - Format: "Headline – [Quelle](Link)"
    - Aktion-orientiert (z.B. "teste in deinem nächsten Projekt")
+   - NUR wenn verifiziert!
 
 2. **Tool-Updates & Tipps**: 2-3 praktische Insights
    - Z.B. Batch-Skripte, Integration-Tipps
+   - Links to official blogs/repos
 
 3. **Karriere/Trends**: 1-2 Chancen für AI-Post-Prod-Freelancer
-   - Hamburg/Remote/Cape Town Jobs
-   - Startup-Chancen
+   - NUR konkrete Job-Boards oder Startup-Links angeben
+   - Wenn Trend: "Trend: X Jobs auf Upwork/LinkedIn (basierend auf Y)"
+   - Keine Erfindungen!
 
 4. **Aktion für heute**: 1 Next-Step
    - Spezifisch, umsetzbar (z.B. "Download + 5min Test")
 
-QUELLENFORMATE:
-- Reddit: r/davinciresolve, r/Avid, r/MachineLearning
-- Hacker News: top stories in AI/video
-- Tool-Blogs: Blackmagic, NVIDIA, Runway, Anthropic
-- Twitter/X: #AIVideo #PostProduction #VideoGeneration
+QUELLENFORMATE & PRIORITÄT:
+1. Official: Blackmagic, NVIDIA, Runway, Anthropic Blogs + GitHub
+2. Verified: Reddit r/davinciresolve, Hacker News, TechCrunch
+3. Community: Twitter/X #AIVideo (mit Verifikation)
+4. Archiv: Letzte 1-2 Wochen wenn keine aktuellen News
 
-Wenn keine aktuellen News zu einem Thema existieren, nutze letzte 1-2 Wochen Archiv.
-Generiere eine REALISTISCHE Zusammenfassung mit realen Tools & Links (wo bekannt).
+ABSOLUTES VERBOT:
+- Keine unsicheren Behauptungen (z.B. "Hamburg Startups suchen..." ohne Job-Board-Link)
+- Keine erfundenen Tools oder Versionen
+- Keine Vermischung von FACT und SPEKULATION ohne Clear Label
+
 Format: Markdown. Beginn mit "# 🎬 Deine AI-Post-Prod News – {current_date}"
+Am Ende: "## 📚 Quellen dieser Ausgabe" mit vollständiger Quellenangabe.
 """
 
     message = client.messages.create(
