@@ -30,6 +30,7 @@ jobs:
       - name: 🔍 Run news scraper
         env:
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
         run: python scripts/news_scraper.py
 
       - name: 📧 Send notification (optional)
