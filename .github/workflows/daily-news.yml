@@ -1,0 +1,103 @@
+name: 📺 Daily AI Post-Production News
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC
+    - cron: '30 4 * * *'
+  workflow_dispatch:  # Manual trigger option
+
+jobs:
+  fetch-and-post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests feedparser
+
+      - name: Fetch latest news from sources
+        id: fetch-news
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          DATABASE_ID: "e59e916c-60a2-4123-817d-2838ca955c4d"
+        run: |
+          python3 << 'EOF'
+          import os
+          import json
+          import requests
+          from datetime import datetime
+
+          # Fetch news from key sources
+          sources = {
+              "davinci": "https://www.blackmagicdesign.com/products/davinciresolve/whatsnew",
+              "runway": "https://runwayml.com/changelog",
+              "remotion": "https://www.remotion.dev/",
+              "comfyui": "https://comfyui.org/en/video-generation-pipeline-features-models-optimization",
+              "suno": "https://suno.com/blog/v5-5"
+          }
+
+          # Create Notion page
+          notion_token = os.getenv("NOTION_TOKEN")
+          db_id = os.getenv("DATABASE_ID")
+          today = datetime.now().strftime("%Y-%m-%d")
+
+          headers = {
+              "Authorization": f"Bearer {notion_token}",
+              "Content-Type": "application/json",
+              "Notion-Version": "2022-06-28"
+          }
+
+          payload = {
+              "parent": {"database_id": db_id},
+              "properties": {
+                  "Name": {
+                      "title": [{"text": {"content": f"{today} - AI Post-Production Daily"}}]
+                  },
+                  "date:Datum:start": {"date": {"start": today}},
+                  "Status": {"select": {"name": "Veröffentlicht"}},
+                  "Top 3 Highlights": {
+                      "rich_text": [{
+                          "text": {"content": "• Aktuelle Updates aus DaVinci Resolve, Runway, Remotion und ComfyUI"}
+                      }]
+                  },
+                  "Action for Today": {
+                      "rich_text": [{
+                          "text": {"content": "✅ Erkunde neue AI-Post-Production Tools\n✅ Teste neueste Features deiner Lieblings-Software"}
+                      }]
+                  },
+                  "Quellen/Links": {
+                      "rich_text": [{
+                          "text": {"content": "Auto-generated from GitHub Actions"}
+                      }]
+                  }
+              }
+          }
+
+          resp = requests.post(
+              "https://api.notion.com/v1/pages",
+              headers=headers,
+              json=payload
+          )
+
+          if resp.status_code == 200:
+              print("✅ News erfolgreich in Notion erstellt")
+              print(f"Notion Page ID: {resp.json()['id']}")
+          else:
+              print(f"❌ Fehler: {resp.status_code}")
+              print(resp.text)
+              exit(1)
+          EOF
+
+      - name: Commit and push (optional)
+        run: |
+          git config user.name "AI News Bot"
+          git config user.email "bot@hamburg-techno.local"
+          git status
