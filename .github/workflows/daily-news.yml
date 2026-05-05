@@ -1,0 +1,43 @@
+name: Daily AI Post-Production News
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC (during daylight saving time)
+    # 06:30 CET = 05:30 UTC (during standard time)
+    # Using 04:30 UTC for May-October (CEST), adjust manually for winter
+    - cron: '30 4 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  generate-news:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install anthropic notion-client
+
+      - name: Generate and publish news
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_NEWS_DB_ID: fa4ec63b-5c1b-443a-9dbd-fe8fe07fa330
+        run: |
+          python scripts/ai_news_generator.py
+
+      - name: Commit and push if changes
+        run: |
+          git config user.name "News Bot"
+          git config user.email "noreply@hamburg-techno.local"
+          git add -A
+          git diff --quiet && git diff --staged --quiet || (git commit -m "📰 Daily AI Post-Prod News $(date +%Y-%m-%d)" && git push)
+        continue-on-error: true
