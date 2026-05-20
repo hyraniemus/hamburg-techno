@@ -1,0 +1,42 @@
+name: 📰 Tägliche AI-Post-Prod News Aggregation
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC (Standard), 05:30 UTC (Sommerzeit)
+    - cron: '30 4 * * *'  # 04:30 UTC (anpassen bei Zeitumstellung)
+  workflow_dispatch:  # Manuell auslösbar
+
+jobs:
+  aggregate-news:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: ✅ Repo auschecken
+        uses: actions/checkout@v4
+
+      - name: 🐍 Python einrichten
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: 📦 Dependencies installieren
+        run: |
+          pip install requests python-dotenv
+
+      - name: 🔍 News aggregieren
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          SENDER_EMAIL: ${{ secrets.SENDER_EMAIL }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+        run: |
+          python news_aggregator.py
+
+      - name: 💾 Git Commit (falls Änderungen)
+        run: |
+          git config user.name "News Bot"
+          git config user.email "bot@hamburg-techno.local"
+          git add -A
+          git commit -m "📰 Daily News Update - $(date +%d.%m.%Y)" || true
+          git push origin main || true
