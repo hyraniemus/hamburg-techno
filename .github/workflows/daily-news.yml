@@ -1,0 +1,70 @@
+name: Daily AI-Post-Prod News
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC (Winter) / 05:30 UTC (Summer)
+    # GitHub Actions uses UTC, so we run at 04:30 UTC with a note about DST
+    - cron: '30 4 * * *'  # 04:30 UTC every day
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  generate-news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install anthropic
+
+      - name: Generate daily news summary
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python scripts/daily-news.py
+
+      - name: Read generated content
+        id: news
+        run: |
+          if [ -f /tmp/daily-news-output.json ]; then
+            echo "content=$(cat /tmp/daily-news-output.json)" >> $GITHUB_OUTPUT
+            echo "✅ News summary generated"
+          else
+            echo "❌ Failed to generate news"
+            exit 1
+          fi
+
+      - name: Send to Notion (if token available)
+        if: env.NOTION_API_TOKEN != ''
+        env:
+          NOTION_API_TOKEN: ${{ secrets.NOTION_API_TOKEN }}
+          NOTION_PAGE_ID: ${{ secrets.NOTION_NEWS_PAGE_ID }}
+        run: |
+          python scripts/send-to-notion.py
+
+      - name: Commit and push if changes exist
+        if: success()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "News Bot"
+          if git diff --quiet; then
+            echo "No changes to commit"
+          else
+            git add -A
+            git commit -m "📰 Daily news update: $(date +'%Y-%m-%d')"
+            git push
+          fi
+
+      - name: Log completion
+        run: |
+          echo "✅ Daily news generation completed at $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          echo "Next scheduled run: Tomorrow 06:30 CEST"
