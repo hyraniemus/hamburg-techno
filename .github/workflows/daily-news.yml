@@ -1,0 +1,41 @@
+name: Daily AI Post-Prod News Digest
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC (CEST ist UTC+2)
+    - cron: '30 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  generate-news:
+    runs-on: ubuntu-latest
+    name: Generate Daily News Summary
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate news digest
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+        run: npm run news:generate
+
+      - name: Commit and push (falls Änderungen)
+        if: always()
+        run: |
+          git config --local user.email "news@hamburg-techno.local"
+          git config --local user.name "News Bot"
+          git add -A
+          git commit -m "📰 Daily news digest - $(date -u +'%Y-%m-%d')" || echo "Nichts zu committen"
+          git push || echo "Kein Push nötig"
