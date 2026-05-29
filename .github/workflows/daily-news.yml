@@ -1,0 +1,37 @@
+name: 🎬 Daily AI-Post-Prod News Update
+
+on:
+  schedule:
+    # 06:30 CEST (UTC+2 in summer, UTC+1 in winter)
+    # Using 04:30 UTC to cover both seasons
+    - cron: '30 4 * * *'
+  workflow_dispatch: # Manual trigger
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    name: Fetch & Post AI Video News
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install requests python-dotenv
+
+      - name: Fetch news & update Notion
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: e83a254b-cac1-4cfc-bcee-57ec821d575a
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/fetch_daily_news.py
+
+      - name: Send email notification
+        env:
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          RECIPIENT_EMAIL: mmittelbach@gmail.com
+        run: python scripts/send_news_email.py
