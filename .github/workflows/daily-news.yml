@@ -1,0 +1,73 @@
+name: Daily AI Post-Prod News Digest
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC (summer time)
+    # 06:30 CET = 05:30 UTC (winter time)
+    # GitHub Actions doesn't support timezone selection, so we use 04:30 UTC as default
+    - cron: '30 4 * * *'
+
+  # Allow manual trigger for testing
+  workflow_dispatch:
+
+jobs:
+  generate-news-digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests python-dotenv
+
+      - name: Generate news digest
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+        run: |
+          python scripts/daily_news_digest.py
+
+      - name: Commit and push digest
+        if: always()
+        run: |
+          git config --local user.email "news-bot@hamburg-techno.local"
+          git config --local user.name "News Digest Bot"
+
+          # Check if there are new files
+          if git status --porcelain | grep -q "news_digests/"; then
+            git add news_digests/
+            git commit -m "Daily AI Post-Prod News Digest – $(date +'%Y-%m-%d')"
+            git push origin $(git rev-parse --abbrev-ref HEAD)
+          fi
+
+# SETUP INSTRUCTIONS:
+# 1. Add these secrets to your GitHub repository settings:
+#    - NOTION_TOKEN: Your Notion Integration Token
+#    - NOTION_DATABASE_ID: Your Notion Database ID (for storing digests)
+#    - SENDGRID_API_KEY: SendGrid API Key (for email delivery)
+#    - RECIPIENT_EMAIL: mmittelbach@gmail.com
+#
+# 2. Create a Notion Integration:
+#    - Go to https://www.notion.so/my-integrations
+#    - Create new integration, copy token
+#    - Share your Notion page/database with the integration
+#
+# 3. Create SendGrid account for emails:
+#    - Sign up at https://sendgrid.com
+#    - Generate API key from dashboard
+#
+# 4. Test the workflow:
+#    - Go to GitHub repo → Actions → Daily AI Post-Prod News Digest
+#    - Click "Run workflow" (workflow_dispatch trigger)
