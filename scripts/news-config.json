@@ -1,0 +1,69 @@
+{
+  "profile": {
+    "name": "Video-Editor & Post-Production Specialist",
+    "location": "Hamburg, Germany",
+    "role": "Transitioning to AI-assisted Video Production",
+    "language": "de"
+  },
+  "coreInterests": [
+    "Avid Media Composer Updates & Bug Fixes",
+    "DaVinci Resolve AI & Color Grading",
+    "Remotion",
+    "ComfyUI",
+    "Runway Gen-4",
+    "Claude Code Integration",
+    "AI Video Generation",
+    "Post-Production Automation",
+    "AI-assisted Editing Workflows",
+    "Suno Music Production",
+    "Documentary Production",
+    "Film/TV Production News"
+  ],
+  "ignoredTopics": [
+    "Politics",
+    "General Business News",
+    "Stock Market"
+  ],
+  "sources": {
+    "reddit": [
+      "r/Avid",
+      "r/davinciresolve",
+      "r/MachineLearning",
+      "r/VideoEditing",
+      "r/Filmmaking"
+    ],
+    "twitter": [
+      "#AIVideo",
+      "#PostProduction",
+      "#DaVinciResolve",
+      "#Avid",
+      "#VideoEditing"
+    ],
+    "blogs": [
+      "https://www.blackmagicdesign.com/news",
+      "https://www.anthropic.com/news",
+      "https://www.producthunt.com",
+      "https://news.ycombinator.com",
+      "https://dev.to"
+    ]
+  },
+  "summaryFormat": {
+    "maxWords": 400,
+    "sections": [
+      "Top 3 News Highlights with relevance to workflow",
+      "Tool Updates & Practical Tips",
+      "Career/Freelance Opportunities",
+      "Action Item for Today"
+    ],
+    "language": "German",
+    "tone": "Professional, actionable, technical"
+  },
+  "distribution": {
+    "schedule": "06:30 CEST daily",
+    "channels": [
+      "notion_page",
+      "email"
+    ],
+    "email": "mmittelbach@gmail.com"
+  }
+}

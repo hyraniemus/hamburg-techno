@@ -7,7 +7,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "news:generate": "ts-node scripts/daily-news.ts",
+    "news:test": "ts-node --skip-project scripts/daily-news.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,5 +27,9 @@
     "react-dom": "^18.0.0",
     "tailwindcss": "^3.0.0",
     "typescript": "^5.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.0",
+    "node-fetch": "^2.7.0"
   }
 }
