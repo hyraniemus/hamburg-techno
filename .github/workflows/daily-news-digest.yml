@@ -1,0 +1,39 @@
+name: Daily AI Post-Prod News Digest
+
+on:
+  schedule:
+    # Täglich um 06:30 CEST (= 05:30 UTC im Sommer, 04:30 UTC im Winter)
+    # GitHub Actions nutzt UTC, also 05:30 für CEST
+    - cron: '30 5 * * *'
+  workflow_dispatch: # Manual trigger option
+
+jobs:
+  generate-digest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install dotenv @notionhq/client
+
+      - name: Generate Daily News Digest
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_PAGE_ID: 38548a587506812e9934f5fc738ab160
+        run: node scripts/daily-news-digest.js
+
+      - name: Commit and push updates
+        if: always()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "News Digest Bot"
+          git add -A
+          git commit -m "chore: daily news digest update $(date -u +'%Y-%m-%d')" || true
+          git push
