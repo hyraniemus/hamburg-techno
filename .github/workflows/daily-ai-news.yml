@@ -1,0 +1,56 @@
+name: Daily AI Post-Prod News Generator
+
+on:
+  schedule:
+    # 06:30 CEST = 04:30 UTC (Standard Time) or 05:30 UTC (Summer Time)
+    # Using 05:30 UTC for June (Summer Time applies)
+    - cron: '30 5 * * *'
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  generate-news:
+    runs-on: ubuntu-latest
+
+    env:
+      NOTION_DB_URL: ${{ secrets.NOTION_NEWS_DB_URL }}
+      NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+      USER_EMAIL: mmittelbach@gmail.com
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js (for potential Notion SDK)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Generate Daily News Summary
+        run: |
+          # Create date variable
+          TODAY=$(date +"%d.%m.%Y")
+          echo "SUMMARY_DATE=$TODAY" >> $GITHUB_ENV
+
+          # Run news generation script (would integrate Claude Code)
+          bash ./generate-daily-news.sh
+
+      - name: Post to Notion Database
+        # This step would use Claude Code's Notion MCP tools
+        # or a native Notion API integration
+        run: |
+          echo "News summary would be posted to Notion"
+          echo "Notion DB URL: $NOTION_DB_URL"
+          echo "Summary Date: ${{ env.SUMMARY_DATE }}"
+
+      - name: Send Email Notification (Optional)
+        # Uncomment to enable email sending
+        if: success()
+        run: |
+          echo "Email notification would be sent to: $USER_EMAIL"
+          # Integration with email service (e.g., SendGrid, AWS SES)
+
+      - name: Log Execution
+        if: always()
+        run: |
+          echo "Daily News Generation completed at $(date)"
+          echo "Exit code: ${{ job.status }}"
